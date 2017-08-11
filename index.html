@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.rawgit.com/ethereum/web3.js/develop/dist/web3.js"></script>
+</head>
+<body>
+<div>seperate txhashes by a comma:</div>
+<div>0x9659aa7d48b87b4a2ea2462d56d16c42fe56903ec7d6d21481f4e2b98b50ba1f, 0x673f1e1432b2308bf9e8f90a5c25b636bc59d02a3fd014c77f29d773b9a65e30</div>
+<input id="hashInput"><br>
+<button onclick="displayData()">Create JSON</button>
+<div id="displayDiv"></div>
+</body>
+</html>
+
+
+<script>
+
+   // connect to the ethereum blockchain using web3
+    web3 = new Web3(new Web3.providers.HttpProvider('https://mainnet.infura.io/2HSUZ74pwuqqG9FGfpCg'))
+
+
+   function displayData(){
+        // remove all of the spaces and store the user hashes into an array
+        var txArray = document.getElementById('hashInput').value.replace(/\s/g, '').split(',')
+
+       // this variable will store all of the data for each transaction hash
+        var dataArray = []
+
+       // loop through the hashArray
+        for (let index in txArray){
+
+           // get data for each hash
+            var transaction = web3.eth.getTransaction(txArray[index]);
+
+           // store into dataArray
+            dataArray.push(transaction)
+        }
+
+       // display on the screen
+        document.getElementById('displayDiv').innerHTML = JSON.stringify(dataArray)
+
+   }
+
+</script>
